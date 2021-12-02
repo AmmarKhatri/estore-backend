@@ -8,7 +8,8 @@ const userSchema = mongoose.Schema({
     number: String,
     address: String,
     balance: Number,
-    active: String,
+    createdAt: Date,
+    status: String,
 });
 
 module.exports = mongoose.model('User', userSchema);

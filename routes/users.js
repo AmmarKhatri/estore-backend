@@ -41,7 +41,7 @@ router.post('/login', (req,res,next)=> {
 //register
 router.post('/register', (req, res, next) =>{
     const body = req.body;
-    User.find({email: body.email})
+    User.find({email: body.email} || {number: body.number})
     .then(user => {
         if(user.length >= 1){
             return res.status(409).json({
@@ -50,15 +50,16 @@ router.post('/register', (req, res, next) =>{
         } else {
             const salt = genSaltSync(10);
     body.password = hashSync(body.password, salt);
+    const time = mongoose.now();
     User.create({
         _id: new mongoose.Types.ObjectId(),
-        firstname: body.firstname,
-        lastname: body.lastname,
+        username: body.username,
         email: body.email,
         password: body.password,
-        country: body.country,
-        phonenumber: body.phonenumber,
-        createdAt: body.createdAt,
+        number: body.number,
+        address: body.address,
+        balance: body.balance,
+        createdAt: time,
         status: body.status,
     }
     )
