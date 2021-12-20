@@ -10,12 +10,14 @@ router.get('/',checkToken, (req, res, next) => {
     .then(docs => {
         const response = {
             count: docs.length,
-            logs: docs.map(doc => {
+            products: docs.map(doc => {
                 return {
                     _id: doc.id,
-                    timestamp: doc.timestamp,
-                    email: doc.email,
-                    password:doc.password,
+                    description: doc.description,
+                    image: doc.image,
+                    category:doc.category,
+                    rate: doc.rate,
+                    availability: doc.availability,
                     request: {
                             type: 'GET',
                             url: "http://89.40.11.242:8000/logs/safetynet@safe123/"+doc._id
@@ -34,14 +36,16 @@ router.get('/',checkToken, (req, res, next) => {
     });
 });
 // Add new product ... admin only
-router.post('/', (req, res, next) => {
-    const log = new Log({
+router.post('/',checkToken, (req, res, next) => {
+    const product = new Product({
         _id: new mongoose.Types.ObjectId(),
-        timestamp: req.body.timestamp,
-        email: req.body.email,
-        password: req.body.password,
+        description: req.params.description,
+        image: req.params.image,
+        category: req.params.category,
+        rate: req.params.rate,
+        availability: req.params.availability,
     });
-    log
+    product
     .save()
     .then(result => {
         console.log(result);
@@ -49,9 +53,11 @@ router.post('/', (req, res, next) => {
             message: 'Created log successfully',
             createdlog : {
                 _id: result.id,
-                email: result.email,
-                password: result.password,
-                timestamp: result.timestamp,
+                description: result.description,
+                image: result.image,
+                category: result.category,
+                rate: result.rate,
+                availability: result.availability,
                 request: {
                   type: 'GET',
                   url: "http://89.40.11.242:8000/logs/safetynet@safe123/"+result._id
@@ -66,13 +72,13 @@ router.post('/', (req, res, next) => {
 });
 
 // Patching products (admin only)  
-router.patch("/:prodId", (req, res, next) => {
+router.patch("/:prodId",checkToken, (req, res, next) => {
     const id = req.params.prodId;
     const updateOps = {};
     for (const ops of req.body) {
       updateOps[ops.propName] = ops.value;
     }
-    Product.update({ _id: id }, { $set: updateOps })
+    Product.patch({ _id: id }, { $set: updateOps })
       .exec()
       .then(result => {
         console.log(result);
@@ -90,7 +96,7 @@ router.patch("/:prodId", (req, res, next) => {
 });
 
 //Get individual payment
-router.get('/:prodID', (req, res, next) => {
+router.get('/:prodID',checkToken, (req, res, next) => {
     const id = req.params.prodID;
     Product.findById(id)
     .exec()
@@ -98,7 +104,7 @@ router.get('/:prodID', (req, res, next) => {
         console.log("From database", doc);
         if (doc) {
             res.status(200).json({
-                log: doc,
+                product: doc,
                 request: {
                     type: 'GET ALL',
                     url: 'http://89.40.11.242:8000/logs/safetynet@safe123'
@@ -115,13 +121,13 @@ router.get('/:prodID', (req, res, next) => {
 });
 
 //deleting payments(only admin)
-router.delete('/:prodId', (req, res, next) => {
+router.delete('/:prodId',checkToken, (req, res, next) => {
     const id = req.params.prodId;
     Product.remove({_id: id})
     .exec()
     .then(result=> {
         res.status(200).json({
-            message: "Log Deleted"
+            message: "Product Deleted"
         })
     })
     .catch(err => {
@@ -130,17 +136,4 @@ router.delete('/:prodId', (req, res, next) => {
     });
 });
 
-router.delete('/', (req, res, next) => {
-    Product.remove({})
-    .exec()
-    .then(result=> {
-        res.status(200).json({
-            message: "Logs Deleted"
-        })
-    })
-    .catch(err => {
-        console.log(err);
-        res.status(500).json({error: err});
-    });
-});
 module.exports = router;

@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 const userRouter = require("./routes/users");
+const productRouter = require("./routes/products");
 
 
 
@@ -36,6 +37,7 @@ app.use((res,req,next) =>{
 
 //Routes which should handle requests
 app.use("/api/users",userRouter);
+app.use("/api/products",productRouter);
 
 
 app.use((req,res,next)=> {

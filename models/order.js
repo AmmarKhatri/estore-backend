@@ -4,7 +4,7 @@ const productSchema = require('./product')
 const orderSchema = mongoose.Schema({
     _orderid: mongoose.Schema.Types.ObjectId,
     _id: String,
-    order: [productSchema],
+    order: Array,
     total: Number,
     createdAt: Date,
     Address: String
