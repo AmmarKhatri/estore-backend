@@ -12,7 +12,7 @@ router.get('/',checkToken, (req, res, next) => {
             count: docs.length,
             products: docs.map(doc => {
                 return {
-                    _id: doc.id,
+                    _id: doc._id,
                     description: doc.description,
                     image: doc.image,
                     category:doc.category,
