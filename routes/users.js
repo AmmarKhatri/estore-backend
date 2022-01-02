@@ -17,10 +17,8 @@ router.post('/login', (req,res,next)=> {
             const validator = compareSync(req.body.password, result[0].password);
             if (validator) {
                 result.password = undefined;
-                const jsontoken = sign({ result: result[0] }, process.env.JWT_KEY,{
-                    expiresIn: "1h"
-                  });
-                return res.status(200).json({
+                const jsontoken = sign({ result: result[0] }, process.env.JWT_KEY);
+                return res.status(201).json({
                   message: "Logged in successfully",
                   token: jsontoken
                 });
@@ -61,7 +59,7 @@ router.post('/register', (req, res, next) =>{
         balance: body.balance,
         createdAt: time,
         status: body.status,
-    }
+        }
     )
     .then(result => {
         res.status(201).json({
