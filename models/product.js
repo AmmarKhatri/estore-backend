@@ -2,11 +2,12 @@ const mongoose = require('mongoose');
 
 const productSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    description: String,
+    name: String,
     image: String,
     description: String,
+    salestax: Number,
     category: String,
-    rate: String,
+    rate: Number,
     availability: Boolean,
 });
 
