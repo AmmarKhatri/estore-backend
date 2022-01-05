@@ -10,7 +10,7 @@ const productRouter = require("./routes/products");
 
 
 
-mongoose.connect('mongodb+srv://Empress:'+process.env.MONGO_PASS+'@cluster0.v4ini.mongodb.net/empressdb?retryWrites=true&w=majority', { 
+mongoose.connect('mongodb+srv://admin:'+process.env.MONGO_PASS+'@cluster0.newyq.mongodb.net/empressdb?retryWrites=true&w=majority', { 
     useNewUrlParser: true, 
     useUnifiedTopology: true
   }
