@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const User = require('../models/user');
-require('dotenv').config();
 const { hashSync, genSaltSync, compareSync} = require('bcrypt');
 const { sign } = require('jsonwebtoken');
 const checkToken = require("../auth/token_validation");

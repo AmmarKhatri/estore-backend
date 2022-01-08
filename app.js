@@ -3,7 +3,6 @@ const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-require('dotenv').config();
 
 const userRouter = require("./routes/users");
 const productRouter = require("./routes/products");
@@ -20,6 +19,7 @@ mongoose.connect('mongodb+srv://admin:'+process.env.MONGO_PASS+'@cluster0.newyq.
     console.log(err)
 });
 
+app.use('/images', express.static('images'))
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());

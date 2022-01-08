@@ -1,0 +1,8 @@
+{
+    "env":{
+        "MONGO_PASS": "Entreprise123",
+        "JWT_KEY": "secret",
+        "URL": "http://localhost:8000/",
+        "ADMIN_JWT": "adjwt"
+    }
+}
