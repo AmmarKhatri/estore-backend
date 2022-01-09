@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 
 const userRouter = require("./routes/users");
 const productRouter = require("./routes/products");
+const categoryRouter = require("./routes/categories");
 
 
 
@@ -38,6 +39,8 @@ app.use((res,req,next) =>{
 //Routes which should handle requests
 app.use("/api/users",userRouter);
 app.use("/api/products",productRouter);
+app.use("/api/categories", categoryRouter);
+
 
 
 app.use((req,res,next)=> {

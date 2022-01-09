@@ -1,13 +1,15 @@
 const jwt = require("jsonwebtoken");
-const adminToken = require("./admin_token_validation");
-async function checkToken (req, res, next)  {
+async function adminToken (req, res, next)  {
   let token = req.get("authorization");
   if (token) {
     // Remove Bearer from string
     token = token.slice(7);
-    jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
+    jwt.verify(token, process.env.ADMIN_JWT, (err, decoded) => {
       if (err) {
-        adminToken(req,res,next);
+        return res.json({
+          success: 0,
+          message: "Invalid Token"
+        });
       } else {
         req.decoded = decoded;
         next();
@@ -20,4 +22,4 @@ async function checkToken (req, res, next)  {
     });
   }
 }
-module.exports = checkToken;
+module.exports = adminToken;

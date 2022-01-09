@@ -39,11 +39,11 @@ router.get('/',checkToken, (req, res, next) => {
 router.post('/',checkToken, (req, res, next) => {
     const product = new Product({
         _id: new mongoose.Types.ObjectId(),
-        description: req.params.description,
-        image: req.params.image,
-        category: req.params.category,
-        rate: req.params.rate,
-        availability: req.params.availability,
+        description: req.body.description,
+        image: req.body.image,
+        category: req.body.category,
+        rate: req.body.rate,
+        availability: req.body.availability,
     });
     product
     .save()
